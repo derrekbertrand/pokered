@@ -1,6 +1,6 @@
 # Linux
 
-	sudo apt-get install make gcc bison git python python-pip
+	sudo apt-get install build-essential make gcc bison git python python-pip
 	sudo pip install pypng
 
 	git clone https://github.com/bentley/rgbds
