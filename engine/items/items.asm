@@ -1378,14 +1378,15 @@ ItemUseMedicine: ; dabb (3:5abb)
 	sbc b
 	ld b,a ; bc = the amount of max HP gained from leveling up
 ; add the amount gained to the current HP
-	ld de,(wPartyMon1HP + 1) - wPartyMon1MaxHP
-	add hl,de ; hl now points to LSB of current HP
-	ld a,[hl]
-	add c
-	ld [hld],a
-	ld a,[hl]
-	adc b
-	ld [hl],a
+;	ld de,(wPartyMon1HP + 1) - wPartyMon1MaxHP
+;	add hl,de ; hl now points to LSB of current HP
+;	ld a,[hl]
+;	add c
+;	ld [hld],a
+;	ld a,[hl]
+;	adc b
+;	ld [hl],a
+; display the rare candy message
 	ld a,RARE_CANDY_MSG
 	ld [wPartyMenuTypeOrMessageID],a
 	call RedrawPartyMenu
