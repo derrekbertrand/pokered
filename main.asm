@@ -4141,6 +4141,8 @@ FlagAction:
 
 HealParty:
 ; Restore HP and PP.
+; Except this is Nuzlocke, and we don't heal pussy
+; ass fainted pokemon at Pokemon Centers!
 
 	ld hl, wPartySpecies
 	ld de, wPartyMon1HP
@@ -4201,6 +4203,16 @@ HealParty:
 	jr nz, .pp
 	pop de
 
+;if both bytes of current HP are 0
+;we skip to after the healing portion
+	ld a, [de]
+	inc de
+	ld h, a
+	ld a, [de]
+	dec de
+	or h
+	jr z, .postheal
+
 	ld hl, wPartyMon1MaxHP - wPartyMon1HP
 	add hl, de
 	ld a, [hli]
@@ -4208,6 +4220,7 @@ HealParty:
 	inc de
 	ld a, [hl]
 	ld [de], a
+.postheal
 
 	pop de
 	pop hl
