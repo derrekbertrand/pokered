@@ -18,7 +18,7 @@ SilphCo4Object: ; 0x19e35 (size=111)
 	object SPRITE_OAK_AIDE, $e, $6, STAY, LEFT, $3, OPP_SCIENTIST, $5
 	object SPRITE_ROCKET, $1a, $a, STAY, UP, $4, OPP_ROCKET, $1b
 	object SPRITE_BALL, $3, $9, STAY, NONE, $5, FULL_HEAL
-	object SPRITE_BALL, $4, $7, STAY, NONE, $6, MAX_REVIVE
+	object SPRITE_BALL, $4, $7, STAY, NONE, $6, RARE_CANDY
 	object SPRITE_BALL, $5, $8, STAY, NONE, $7, ESCAPE_ROPE
 
 	; warp-to

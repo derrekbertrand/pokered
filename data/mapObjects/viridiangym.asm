@@ -18,7 +18,7 @@ ViridianGymObject: ; 0x74bde (size=105)
 	object SPRITE_ROCKER, $2, $10, STAY, RIGHT, $8, OPP_TAMER, $4
 	object SPRITE_BLACK_HAIR_BOY_1, $6, $5, STAY, DOWN, $9, OPP_COOLTRAINER_M, $1
 	object SPRITE_GYM_HELPER, $10, $f, STAY, DOWN, $a ; person
-	object SPRITE_BALL, $10, $9, STAY, NONE, $b, REVIVE
+	object SPRITE_BALL, $10, $9, STAY, NONE, $b, NUGGET
 
 	; warp-to
 	EVENT_DISP VIRIDIAN_GYM_WIDTH, $11, $10
