@@ -11,17 +11,18 @@ AskName: ; 64eb (1:64eb)
 	ld a, [wcf91]
 	ld [wd11e], a
 	call GetMonName
-	ld hl, DoYouWantToNicknameText
-	call PrintText
-	coord hl, 14, 7
-	lb bc, 8, 15
-	ld a, TWO_OPTION_MENU
-	ld [wTextBoxID], a
-	call DisplayTextBoxID
+;This is what asks to nickname
+;	ld hl, DoYouWantToNicknameText
+;	call PrintText
+;	coord hl, 14, 7
+;	lb bc, 8, 15
+;	ld a, TWO_OPTION_MENU
+;	ld [wTextBoxID], a
+;	call DisplayTextBoxID
 	pop hl
-	ld a, [wCurrentMenuItem]
-	and a
-	jr nz, .declinedNickname
+;	ld a, [wCurrentMenuItem]
+;	and a
+;	jr nz, .declinedNickname
 	ld a, [wUpdateSpritesEnabled]
 	push af
 	xor a
@@ -203,6 +204,10 @@ DisplayNamingScreen: ; 6596 (1:6596)
 	ret
 
 .pressedStart
+;this should prevent leaving without a name
+	ld a, [wNamingScreenNameLength]
+	and a
+	ret z
 	ld a, 1
 	ld [wNamingScreenSubmitName], a
 	ret
