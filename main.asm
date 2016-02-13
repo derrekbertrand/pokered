@@ -20,6 +20,11 @@ SECTION "bank1",ROMX,BANK[$1]
 INCLUDE "data/facing.asm"
 
 ResetStatusAndHalveMoneyOnBlackout::
+
+;When the player blacks out we actually reset the game
+;they never hit the rest of this function
+	jp SoftReset
+
 ; Reset player status on blackout.
 	xor a
 	ld [wBattleResult], a
