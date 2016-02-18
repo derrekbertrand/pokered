@@ -1857,6 +1857,7 @@ PokemonMenuEntries: ; 77c2 (1:77c2)
 	next "SWITCH"
 	next "CANCEL@"
 
+;1:77C4 as of writing
 GetMonFieldMoves: ; 77d6 (1:77d6)
 	ld a, [wWhichPokemon]
 	ld hl, wPartyMon1Moves
@@ -1866,6 +1867,32 @@ GetMonFieldMoves: ; 77d6 (1:77d6)
 	ld e, l
 	ld c, NUM_MOVES + 1
 	ld hl, wFieldMoves
+;here we work our magic to stop field moves for dead
+;monsters. save state so we can do stuff
+	push hl
+	push de
+;calc hl to a pointer to the current HP
+	ld hl, wPartyMon1Moves - wPartyMon1HP
+	ld a, e
+	sub l
+	ld e, a
+;this actually is not tested, there's no opportunity
+;if wRAM is ever shifted, test this!!!
+	jr nc, .checkIf0
+	dec d
+.checkIf0
+;check if 0
+	ld a, [de]
+	ld l, a
+	inc de
+	ld a, [de]
+	or l
+	jr nz, .pkmnAlive
+	ld c, 1
+.pkmnAlive
+	pop de
+	pop hl
+;end hackery
 .loop
 	push hl
 .nextMove
