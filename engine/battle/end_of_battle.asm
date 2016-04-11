@@ -1,4 +1,13 @@
 EndOfBattle: ; 137aa (4:77aa)
+; if wild battle
+	ld a, [wIsInBattle]
+	cp 1
+	jr nz, .noWriteCaughtFlag
+; write the flag for this area
+	ld b, 3
+	ld hl, CaughtFlagWrite
+	call Bankswitch
+.noWriteCaughtFlag
 	ld a, [wLinkState]
 	cp LINK_STATE_BATTLING
 	jr nz, .notLinkBattle

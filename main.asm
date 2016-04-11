@@ -4170,6 +4170,43 @@ FlagAction:
 	ld c, a
 	ret
 
+; for end of battle
+; set to write and then fall through
+CaughtFlagWrite:
+	ld b, 1
+
+; A wrapper for FlagAction that takes only a parameter in b
+; Operates on wCaughtFlags and wCurMap
+; returns result in a
+CaughtFlagAction:
+	push hl
+	ld hl, wCurMap
+	ld a, [hl]
+	cp 36
+	jr nc, .otherMaps ;if > 36, it is one of the other maps
+	and $07
+	ld c, a
+	ld a, [hl]
+	srl a
+	srl a
+	srl a
+	ld hl, wCaughtFlags
+	add a, l
+	ld l, a
+	jr nc, .noCarry1
+	inc h
+.noCarry1
+	ld a, [hl]
+	jr .callFlagAction
+.otherMaps
+	pop hl
+	ld c, 0
+	ret
+.callFlagAction
+	call FlagAction ;a is the byte in question, c is the bit, let's go!
+	pop hl
+	ret
+
 
 HealParty:
 ; Restore HP and PP.

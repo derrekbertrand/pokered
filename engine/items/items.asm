@@ -101,6 +101,12 @@ ItemUsePtrTable: ; d5e1 (3:55e1)
 	dw ItemUsePPRestore  ; MAX_ELIXER
 
 ItemUseBall: ; d687 (3:5687)
+; Balls can only be used if this is your first wild battle here
+	ld b, 2
+	call CaughtFlagAction
+	ld a, c
+	and a
+	jp nz, ItemUseNotTime
 
 ; Balls can't be used out of battle.
 	ld a,[wIsInBattle]

@@ -3155,6 +3155,8 @@ wBoxMonNicksEnd:: ; dee2
 
 wBoxDataEnd::
 
+; Declare six bytes of caught flags
+wCaughtFlags:: ds 6
 
 SECTION "Stack", WRAMX[$dfff], BANK[1]
 wStack:: ; dfff
