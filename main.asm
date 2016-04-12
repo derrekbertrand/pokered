@@ -4182,7 +4182,7 @@ CaughtFlagAction:
 	push hl
 	ld hl, wCurMap
 	ld a, [hl]
-	cp 36
+	cp 37
 	jr nc, .otherMaps ;if > 36, it is one of the other maps
 	and $07
 	ld c, a
@@ -4199,11 +4199,98 @@ CaughtFlagAction:
 	ld a, [hl]
 	jr .callFlagAction
 .otherMaps
-	pop hl
+; start with the 2nd to last byte
+; we have 3 more we can pack in here
+	ld hl, wCaughtFlags+4
+	ld a, [wCurMap]
+;Viridian Forest
+	ld c, 5
+	cp a, 51
+	jr z, .ldACFA
+;Power Plant
+	inc c
+	cp a, 83
+	jr z, .ldACFA
+;Diglett Cave
+	inc c
+	cp a, 198
+	jr z, .ldACFA
+; next group
+	inc hl
+;Mt Moon 59,60,61
 	ld c, 0
-	ret
+	cp a, 59
+	jr c, .notMtMoon
+	cp a, 62
+	jr nc, .notMtMoon
+	jr .ldACFA
+.notMtMoon
+;Victory Road 108,194,198
+	inc c
+	cp a, 108
+	jr z, .ldACFA
+	cp a, 194
+	jr z, .ldACFA
+	cp a, 198
+	jr z, .ldACFA
+;Rock Tunnel 82,232
+	inc c
+	cp a, 82
+	jr z, .ldACFA
+	cp a, 232
+	jr z, .ldACFA
+;Unkown Dungeon 226, 227, 228
+	inc c
+	cp a, 226
+	jr c, .notUnkownDungeon
+	cp a, 229
+	jr nc, .notUnkownDungeon
+	jr .ldACFA
+.notUnkownDungeon
+;Pokemon Tower 141-148
+	inc c
+	cp a, 141
+	jr c, .notPokemonTower
+	cp a, 149
+	jr nc, .notPokemonTower
+	jr .ldACFA
+.notPokemonTower
+;Safari Zone 217-220
+	inc c
+	cp a, 217
+	jr c, .notSafariZone
+	cp a, 221
+	jr nc, .notSafariZone
+	jr .ldACFA
+.notSafariZone
+;Seafoam Islands 159-162,192
+	inc c
+	cp a, 192
+	jr z, .ldACFA
+	cp a, 159
+	jr c, .notSeafoamIslandsDungeon
+	cp a, 163
+	jr nc, .notSeafoamIslandsDungeon
+	jr .ldACFA
+.notSeafoamIslandsDungeon
+;Cinnabar Mansion 165,214-216
+	inc c
+	cp a, 165
+	jr z, .ldACFA
+	cp a, 214
+	jr c, .notCinnabarMansion
+	cp a, 217
+	jr nc, .notCinnabarMansion
+	jr .ldACFA
+.notCinnabarMansion
+;it isn't in our whitelist, just say no
+	ld c, 0
+	jr .dontCallFlagAction
+.ldACFA ; load a, and then fall through
+	ld a, [hl]
 .callFlagAction
 	call FlagAction ;a is the byte in question, c is the bit, let's go!
+.dontCallFlagAction
 	pop hl
 	ret
 
