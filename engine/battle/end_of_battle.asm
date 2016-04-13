@@ -1,10 +1,7 @@
 EndOfBattle: ; 137aa (4:77aa)
-; AFAIK, this variable does not get saved to SRAM, and
-; thus is worthless to us
-; if we have bought and sold something
-;	ld a, [wBoughtOrSoldItemInMart]
-;	and a
-;	jr z, .noWriteCaughtFlag
+; There's an event system. That's more like it!
+	CheckEvent EVENT_CAN_BUY_BALLS
+	jr z, .noWriteCaughtFlag
 ; if wild battle
 	ld a, [wIsInBattle]
 	cp 1
