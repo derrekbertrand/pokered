@@ -4186,66 +4186,76 @@ CaughtFlagAction:
 	jr nc, .otherMaps ;if > 36, it is one of the other maps
 	and $07
 	ld c, a
+; c now contains the bit
 	ld a, [hl]
 	srl a
 	srl a
 	srl a
-	ld hl, wCaughtFlags
+; a now contains the byte offset
+	EventFlagAddress hl, EVENT_CAUGHT_FLAGS_START
 	add a, l
 	ld l, a
-	jr nc, .noCarry1
-	inc h
-.noCarry1
-	ld a, [hl]
-	jr .callFlagAction
+	ld a, h
+	adc a, 0
+	ld h, a
+; hl is now event_flags + CAUGHT_FLAGS_START offset + a (byte offset)
+; c is still the bit
+; b is the task
+	jp .callFlagAction
 .otherMaps
 ; start with the 2nd to last byte
 ; we have 3 more we can pack in here
-	ld hl, wCaughtFlags+4
+	EventFlagAddress hl, EVENT_CAUGHT_FLAGS_START
+	ld a, l
+	add a, 4
+	ld l, a
+	ld a, h
+	adc a, 0
+	ld h, a
 	ld a, [wCurMap]
 ;Viridian Forest
 	ld c, 5
 	cp a, 51
-	jr z, .ldACFA
+	jr z, .callFlagAction
 ;Power Plant
 	inc c
 	cp a, 83
-	jr z, .ldACFA
+	jr z, .callFlagAction
 ;Diglett Cave
 	inc c
 	cp a, 198
-	jr z, .ldACFA
+	jr z, .callFlagAction
 ; next group
 	inc hl
-;Mt Moon 59,60,61
 	ld c, 0
+; Mt Moon 59,60,61
 	cp a, 59
 	jr c, .notMtMoon
 	cp a, 62
 	jr nc, .notMtMoon
-	jr .ldACFA
+	jr .callFlagAction
 .notMtMoon
 ;Victory Road 108,194,198
 	inc c
 	cp a, 108
-	jr z, .ldACFA
+	jr z, .callFlagAction
 	cp a, 194
-	jr z, .ldACFA
+	jr z, .callFlagAction
 	cp a, 198
-	jr z, .ldACFA
+	jr z, .callFlagAction
 ;Rock Tunnel 82,232
 	inc c
 	cp a, 82
-	jr z, .ldACFA
+	jr z, .callFlagAction
 	cp a, 232
-	jr z, .ldACFA
+	jr z, .callFlagAction
 ;Unkown Dungeon 226, 227, 228
 	inc c
 	cp a, 226
 	jr c, .notUnkownDungeon
 	cp a, 229
 	jr nc, .notUnkownDungeon
-	jr .ldACFA
+	jr .callFlagAction
 .notUnkownDungeon
 ;Pokemon Tower 141-148
 	inc c
@@ -4253,7 +4263,7 @@ CaughtFlagAction:
 	jr c, .notPokemonTower
 	cp a, 149
 	jr nc, .notPokemonTower
-	jr .ldACFA
+	jr .callFlagAction
 .notPokemonTower
 ;Safari Zone 217-220
 	inc c
@@ -4261,35 +4271,33 @@ CaughtFlagAction:
 	jr c, .notSafariZone
 	cp a, 221
 	jr nc, .notSafariZone
-	jr .ldACFA
+	jr .callFlagAction
 .notSafariZone
 ;Seafoam Islands 159-162,192
 	inc c
 	cp a, 192
-	jr z, .ldACFA
+	jr z, .callFlagAction
 	cp a, 159
 	jr c, .notSeafoamIslandsDungeon
 	cp a, 163
 	jr nc, .notSeafoamIslandsDungeon
-	jr .ldACFA
+	jr .callFlagAction
 .notSeafoamIslandsDungeon
 ;Cinnabar Mansion 165,214-216
 	inc c
 	cp a, 165
-	jr z, .ldACFA
+	jr z, .callFlagAction
 	cp a, 214
 	jr c, .notCinnabarMansion
 	cp a, 217
 	jr nc, .notCinnabarMansion
-	jr .ldACFA
+	jr .callFlagAction
 .notCinnabarMansion
 ;it isn't in our whitelist, just say no
 	ld c, 0
 	jr .dontCallFlagAction
-.ldACFA ; load a, and then fall through
-	ld a, [hl]
 .callFlagAction
-	call FlagAction ;a is the byte in question, c is the bit, let's go!
+	call FlagAction ;hl is the byte in question, c is the bit, let's go!
 .dontCallFlagAction
 	pop hl
 	ret

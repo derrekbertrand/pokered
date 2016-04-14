@@ -488,7 +488,7 @@ const_value = 0
 	const EVENT_1E5                                  ; 1E5, (D783, bit 5)
 	const EVENT_1E6                                  ; 1E6, (D783, bit 6)
 	const EVENT_1E7                                  ; 1E7, (D783, bit 7)
-	const EVENT_1E8                                  ; 1E8, (D784, bit 0)
+	const EVENT_CAUGHT_FLAGS_START                   ; 1E8, (D784, bit 0) the start of caught flags
 	const EVENT_1E9                                  ; 1E9, (D784, bit 1)
 	const EVENT_1EA                                  ; 1EA, (D784, bit 2)
 	const EVENT_1EB                                  ; 1EB, (D784, bit 3)
@@ -535,7 +535,7 @@ const_value = 0
 	const EVENT_214                                  ; 214, (D789, bit 4)
 	const EVENT_215                                  ; 215, (D789, bit 5)
 	const EVENT_216                                  ; 216, (D789, bit 6)
-	const EVENT_217                                  ; 217, (D789, bit 7)
+	const EVENT_217                                  ; 217, (D789, bit 7) the end of caught flags
 	const EVENT_218                                  ; 218, (D78A, bit 0)
 	const EVENT_219                                  ; 219, (D78A, bit 1)
 	const EVENT_21A                                  ; 21A, (D78A, bit 2)
